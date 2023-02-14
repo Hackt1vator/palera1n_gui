@@ -3,7 +3,7 @@
    <img src="https://avatars.githubusercontent.com/u/114239186?s=100&v=4" alt="palera1n logo">
     <p>palera1n (gui version)</p>
 </h1>
-<h3 align="center">This is a modded version of Palera1n jailbreak (ios 15.x-16.x) form Laurin226</h3>
+<h3 align="center">This is a gui version of Palera1n jailbreak (ios 15.x-16.x) form Laurin226</h3>
 <p align="center">
     <strong><a href="CHANGELOG.md">Change Log</a></strong>
     •
