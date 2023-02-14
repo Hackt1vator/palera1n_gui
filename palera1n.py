@@ -96,33 +96,147 @@ def startpalera1n():
     global LAST_CONNECTED_UDID, LAST_CONNECTED_IOS_VER
 
 #iOSVER = str(LAST_CONNECTED_IOS_VER)
-    iOSVer = askstring('Device iOS?', 'What iOS are you trying to jailbreak?')
-    
+    global LAST_CONNECTED_UDID, LAST_CONNECTED_IOS_VER
+    # step 1 technically
+    print("Searching for connected device...")
+    os.system("idevicepair unpair")
+    os.system("idevicepair pair")
+    os.system("./device/ideviceinfo > ./device/lastdevice.txt")
+
+    time.sleep(2)
+
+    f = open("./device/lastdevice.txt", "r")
+    fileData = f.read()
+    f.close()
+
+    if ("ERROR:" in fileData):
+        # no device was detected, so retry user!
+        print("ERROR: No device found!")
+
+        messagebox.showinfo("No device detected! 0x404", "Try disconnecting and reconnecting your device.")
+    else:
+        # we definitely have something connected...
+
+        # find the UDID
+        start = 'UniqueDeviceID: '
+        end = 'UseRaptorCerts:'
+        s = str(fileData)
+
+        foundData = s[s.find(start) + len(start):s.rfind(end)]
+        UDID = str(foundData)
+        LAST_CONNECTED_UDID = str(UDID)
+
+        # find the iOS
+        # we definitely have something connected...
+        start2 = 'ProductVersion: '
+        end2 = 'ProductionSOC:'
+        s2 = str(fileData)
+
+        foundData2 = s2[s.find(start2) + len(start2):s2.rfind(end2)]
+        deviceIOS = str(foundData2)
+        LAST_CONNECTED_IOS_VER = str(deviceIOS)
+
+        if (len(UDID) > 38):
+            # stop automatic detection
+            timerStatus = 0
+
+            print("Found UDID: " + LAST_CONNECTED_UDID)
+            messagebox.showinfo("iDevice is detected!", "Found iDevice on iOS " + LAST_CONNECTED_IOS_VER)
+        #            cbeginExploit10["state"] = "normal"
+        #            cbeginExploit2["state"] = "normal"
+
+        # messagebox.showinfo("Ready to begin!","We are ready to start jailbreak!")
+
+        # cbeginExploit10["state"] = "normal"
+
+        else:
+            print("Couldn't find your device")
+            messagebox.showinfo("Somethings missing! 0x405", "Try disconnecting and reconnecting your device.")
+
     #check if theres a valid string to continue to reversing jb
-    if(len(iOSVer) < 2):
+    if(len(LAST_CONNECTED_IOS_VER) < 2):
         showinfo('jailbreak Failed', 'Give me a valid iOS version.')
     else:
-        showinfo('Ready to Jailbreak...', 'Hi, iOS '+str(iOSVer)+'. \n\nWe will now attempt to jailbreak iOS '+str(iOSVer)+' Semi-Tethered.')
+        showinfo('Ready to Jailbreak...', 'Hi, iOS '+str(LAST_CONNECTED_IOS_VER)+'. \n\nWe will now attempt to jailbreak iOS '+str(LAST_CONNECTED_IOS_VER)+' Semi-Tethered.')
         print("Starting jailbreak...")
         os.system("idevicepair unpair")
         os.system("idevicepair pair")
-        os.system(f"cd ./palera1n/ && ./palera1n.sh --tweaks {iOSVer} --semi-tethered")
+        os.system(f"cd ./palera1n/ && ./palera1n.sh --tweaks --semi-tethered {LAST_CONNECTED_IOS_VER}")
+
+        print("Device is jailbroken!\n")
+        showinfo('jailbreak Success!', 'Device is now jailbroken!')
+
 
 def removepalera1n():
     global LAST_CONNECTED_UDID, LAST_CONNECTED_IOS_VER
 
-#iOSVER = str(LAST_CONNECTED_IOS_VER)
-    iOSVer = askstring('Device iOS?', 'What iOS are you trying to remove the jailbreak?')
+    # iOSVER = str(LAST_CONNECTED_IOS_VER)
+    global LAST_CONNECTED_UDID, LAST_CONNECTED_IOS_VER
+    # step 1 technically
+    print("Searching for connected device...")
+    os.system("idevicepair unpair")
+    os.system("idevicepair pair")
+    os.system("./device/ideviceinfo > ./device/lastdevice.txt")
+
+    time.sleep(2)
+
+    f = open("./device/lastdevice.txt", "r")
+    fileData = f.read()
+    f.close()
+
+    if ("ERROR:" in fileData):
+        # no device was detected, so retry user!
+        print("ERROR: No device found!")
+
+        messagebox.showinfo("No device detected! 0x404", "Try disconnecting and reconnecting your device.")
+    else:
+        # we definitely have something connected...
+
+        # find the UDID
+        start = 'UniqueDeviceID: '
+        end = 'UseRaptorCerts:'
+        s = str(fileData)
+
+        foundData = s[s.find(start) + len(start):s.rfind(end)]
+        UDID = str(foundData)
+        LAST_CONNECTED_UDID = str(UDID)
+
+        # find the iOS
+        # we definitely have something connected...
+        start2 = 'ProductVersion: '
+        end2 = 'ProductionSOC:'
+        s2 = str(fileData)
+
+        foundData2 = s2[s.find(start2) + len(start2):s2.rfind(end2)]
+        deviceIOS = str(foundData2)
+        LAST_CONNECTED_IOS_VER = str(deviceIOS)
+
+        if (len(UDID) > 38):
+            # stop automatic detection
+            timerStatus = 0
+
+            print("Found UDID: " + LAST_CONNECTED_UDID)
+            messagebox.showinfo("iDevice is detected!", "Found iDevice on iOS " + LAST_CONNECTED_IOS_VER)
+        #            cbeginExploit10["state"] = "normal"
+        #            cbeginExploit2["state"] = "normal"
+
+        # messagebox.showinfo("Ready to begin!","We are ready to start jailbreak!")
+
+        # cbeginExploit10["state"] = "normal"
+
+        else:
+            print("Couldn't find your device")
+            messagebox.showinfo("Somethings missing! 0x405", "Try disconnecting and reconnecting your device.")
     
     #check if theres a valid string to continue to reversing jb
-    if(len(iOSVer) < 2):
+    if(len(LAST_CONNECTED_IOS_VER) < 2):
         showinfo('jailbreak Failed', 'Give me a valid iOS version.')
     else:
-        showinfo('Ready to remove Jailbreak...', 'Hi, iOS '+str(iOSVer)+'. \n\nWe will now attempt to jailbreak iOS '+str(iOSVer)+' Semi-Tethered.')
+        showinfo('Ready to remove Jailbreak...', 'Hi, iOS '+str(LAST_CONNECTED_IOS_VER)+'. \n\nWe will now attempt to remove jailbreak on iOS '+str(LAST_CONNECTED_IOS_VER)+' Semi-Tethered.')
         print("Starting removing jailbreak...")
         os.system("idevicepair unpair")
         os.system("idevicepair pair")
-        os.system(f"cd ./palera1n/ && ./palera1n.sh --restorerootfs {iOSVer} --tweaks")
+        os.system(f"cd ./palera1n/ && ./palera1n.sh --restorerootfs --tweaks {LAST_CONNECTED_IOS_VER}")
         
 def enterRecMode():
     print("Kicking device into recovery mode...")
@@ -140,7 +254,7 @@ def quitProgram():
     os.system("exit")
     
 def opentwitter():
-    webbrowser.open('https://www.twitter.com/laurin2261', new=2)
+    webbrowser.open('https://www.twitter.com/palera1n', new=2)
 
 
 root.title('palera1n gui - Made by @laurin2261')
@@ -195,10 +309,10 @@ cButton5 = tk.Button(frame,
                    state="normal")
 cButton5.place(x=380, y=10)
 #Create a Label to display the link
-link = Label(root, text="Made this tool @laurin2261",font=('Helveticabold', 12), cursor="hand2")
+link = Label(root, text="Made this gui @laurin2261",font=('Helveticabold', 12), cursor="hand2")
 link.place(x=165, y=220)
 link.bind("<Button-1>", lambda e:
-callback("https://twitter.com/ios_euphoria"))
+callback("https://twitter.com/laurin2261"))
 
 cbeginExploit2 = tk.Button(frame,
                    text="Twitter",
@@ -212,10 +326,6 @@ root.resizable(False, False)
 
 root.eval('tk::PlaceWindow . center')
 
-#make message box popup on load start
-#messagebox.showinfo("Hello!","Device must be jailbroken before running Make it Sn0w!")
-#song = AudioSegment.from_mp3("./extras/euphoria_scripts/success.mp3")
-#messagebox.showinfo("Warning!","Make sure you have wiped the locked iDevice with iTunes using DFU mode before you begin...")
 
 root.mainloop()
 
